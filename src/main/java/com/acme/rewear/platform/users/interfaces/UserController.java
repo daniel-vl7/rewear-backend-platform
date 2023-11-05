@@ -87,7 +87,7 @@ public class UserController {
 
     // Login User
     @Operation(summary = "Login user", tags = { "User" })
-    @PostMapping("/login")
+    @PostMapping("/{userId}/login")
     public ResponseEntity<Boolean> loginUser(@RequestBody LoginUserResource resource) {
         var loginUserCommand = LoginUserCommandFromResourceAssembler.toCommandFromResource(resource);
         boolean loginSuccessful = _userCommandService.handle(loginUserCommand);
