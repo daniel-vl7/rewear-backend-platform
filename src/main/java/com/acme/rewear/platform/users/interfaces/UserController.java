@@ -27,7 +27,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping(value = "/api/v1/users", produces = APPLICATION_JSON_VALUE)
-@Tag(name = "User", description = "User Management Endpoint")
+@Tag(name = "User", description = "User Management Endpoints")
 public class UserController {
     private final UserCommandService _userCommandService;
     private final UserQueryService _userQueryService;
