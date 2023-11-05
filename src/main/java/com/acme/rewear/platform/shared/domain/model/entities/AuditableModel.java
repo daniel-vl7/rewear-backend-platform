@@ -1,7 +1,6 @@
 package com.acme.rewear.platform.shared.domain.model.entities;
 
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -14,8 +13,12 @@ import java.util.Date;
 @Data
 public class AuditableModel {
     @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false)
     private Date createdAt;
 
     @LastModifiedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date updatedAt;
 }
