@@ -4,7 +4,7 @@ import com.acme.rewear.platform.users.domain.model.aggregates.User;
 import com.acme.rewear.platform.users.domain.model.queries.GetAllUsersQuery;
 import com.acme.rewear.platform.users.domain.model.queries.GetUserByIdQuery;
 import com.acme.rewear.platform.users.domain.services.UserQueryService;
-import com.acme.rewear.platform.users.interfaces.persistence.jpa.repositories.UserRepository;
+import com.acme.rewear.platform.users.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

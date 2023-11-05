@@ -6,7 +6,7 @@ import com.acme.rewear.platform.users.domain.model.commands.LoginUserCommand;
 import com.acme.rewear.platform.users.domain.model.commands.RegisterUserCommand;
 import com.acme.rewear.platform.users.domain.model.commands.UpdateUserCommand;
 import com.acme.rewear.platform.users.domain.services.UserCommandService;
-import com.acme.rewear.platform.users.interfaces.persistence.jpa.repositories.UserRepository;
+import com.acme.rewear.platform.users.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,28 +18,39 @@ public class UserCommandServiceImpl implements UserCommandService {
     }
 
     @Override
-    public void handle(RegisterUserCommand command) {
-        User newUser = new User(command.firstName(), command.lastName(), command.username(), command.email(), command.password());
+    public Long handle(RegisterUserCommand command) {
+        var newUser = new User(command.firstName(), command.lastName(), command.username(), command.email(), command.password());
+        _userRepository.findUserByUsername(newUser.getUsername()).map(user -> {
+            throw new IllegalArgumentException("Username " + command.username() + " already exists");
+        });
 
         _userRepository.save(newUser);
+        return newUser.getId();
     }
 
     @Override
-    public User handle(LoginUserCommand command) {
-        return _userRepository.findUserById(command.id())
-                .orElseThrow(() -> new IllegalArgumentException("User with ID " + command.id() + " not found"));
-    }
+    public boolean handle(LoginUserCommand command) {
+        User user = _userRepository.findUserByUsername(command.username())
+                .orElse(null);
 
+        if (user == null || !user.getPassword().equals(command.password())) {
+            return false;
+        }
+
+        return true;
+    }
     @Override
     public void handle(UpdateUserCommand command) {
         User user = _userRepository.findUserById(command.id())
                 .orElseThrow(() -> new IllegalArgumentException("User with ID " + command.id() + " not found"));
 
-        user.updateFirstName(command.firstName());
-        user.updateLastName(command.lastName());
-        user.updateUsername(command.username());
-        user.updateEmail(command.email());
-        user.updatePassword(command.password());
+        User updatedUser = new User(command.firstName(), command.lastName(), command.username(), command.email(), command.password());
+
+        user.setFirstName(updatedUser.getFirstName());
+        user.setLastName(updatedUser.getLastName());
+        user.setUsername(updatedUser.getUsername());
+        user.setEmail(updatedUser.getEmail());
+        user.setPassword(updatedUser.getPassword());
 
         _userRepository.save(user);
     }

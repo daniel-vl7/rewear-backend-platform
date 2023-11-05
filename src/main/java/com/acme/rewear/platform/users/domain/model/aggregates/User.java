@@ -2,6 +2,7 @@ package com.acme.rewear.platform.users.domain.model.aggregates;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -18,17 +19,25 @@ public class User extends AbstractAggregateRoot<User> {
     @Getter
     private Long id;
 
+    @Getter
+    @Setter
     private String firstName;
+
+    @Getter
+    @Setter
     private String lastName;
+
+    @Getter
+    @Setter
     private String username;
+
+    @Getter
+    @Setter
     private String email;
+
+    @Getter
+    @Setter
     private String password;
-
-    @CreatedDate
-    private Date createdAt;
-
-    @LastModifiedDate
-    private Date updatedAt;
 
     public User(String firstName, String lastName, String username, String email, String password) {
         this.firstName = firstName;
@@ -41,30 +50,4 @@ public class User extends AbstractAggregateRoot<User> {
     public User() {
 
     }
-
-    public void updateFirstName(String firstName) { this.firstName = firstName; }
-
-    public void updateLastName(String lastName) { this.lastName = lastName; }
-
-    public void updateUsername(String username) {
-        this.username = username;
-    }
-
-    public void updateEmail(String email) { this.email = email; }
-
-    public void updatePassword(String password) {
-        this.password = password;
-    }
-
-
-
-    public String getUsername() {
-        return this.username;
-    }
-
-    public String getUserCredentials() {
-        return "Username: " + this.username + ", Password: " + this.password;
-    }
-
-
 }

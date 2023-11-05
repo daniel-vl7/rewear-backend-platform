@@ -7,8 +7,8 @@ import com.acme.rewear.platform.users.domain.model.commands.RegisterUserCommand;
 import com.acme.rewear.platform.users.domain.model.commands.UpdateUserCommand;
 
 public interface UserCommandService {
-    void handle (RegisterUserCommand command);
-    User handle (LoginUserCommand command);
+    Long handle (RegisterUserCommand command);
+    boolean handle (LoginUserCommand command);
     void handle (UpdateUserCommand command);
     void handle (DeleteUserCommand command);
 }
