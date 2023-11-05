@@ -44,13 +44,11 @@ public class UserCommandServiceImpl implements UserCommandService {
         User user = _userRepository.findUserById(command.id())
                 .orElseThrow(() -> new IllegalArgumentException("User with ID " + command.id() + " not found"));
 
-        User updatedUser = new User(command.firstName(), command.lastName(), command.username(), command.email(), command.password());
-
-        user.setFirstName(updatedUser.getFirstName());
-        user.setLastName(updatedUser.getLastName());
-        user.setUsername(updatedUser.getUsername());
-        user.setEmail(updatedUser.getEmail());
-        user.setPassword(updatedUser.getPassword());
+        command.firstName().ifPresent(user::setFirstName);
+        command.lastName().ifPresent(user::setLastName);
+        command.username().ifPresent(user::setUsername);
+        command.email().ifPresent(user::setEmail);
+        command.password().ifPresent(user::setPassword);
 
         _userRepository.save(user);
     }
