@@ -42,13 +42,21 @@ public class User extends AbstractAggregateRoot<User> {
 
     }
 
+    public void updateFirstName(String firstName) { this.firstName = firstName; }
+
+    public void updateLastName(String lastName) { this.lastName = lastName; }
+
     public void updateUsername(String username) {
         this.username = username;
     }
 
+    public void updateEmail(String email) { this.email = email; }
+
     public void updatePassword(String password) {
         this.password = password;
     }
+
+
 
     public String getUsername() {
         return this.username;
@@ -57,4 +65,6 @@ public class User extends AbstractAggregateRoot<User> {
     public String getUserCredentials() {
         return "Username: " + this.username + ", Password: " + this.password;
     }
+
+
 }
