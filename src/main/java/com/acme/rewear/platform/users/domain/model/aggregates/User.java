@@ -1,4 +1,4 @@
-package com.acme.rewear.platform.users.domain.aggregates;
+package com.acme.rewear.platform.users.domain.model.aggregates;
 
 import jakarta.persistence.*;
 import lombok.Getter;
