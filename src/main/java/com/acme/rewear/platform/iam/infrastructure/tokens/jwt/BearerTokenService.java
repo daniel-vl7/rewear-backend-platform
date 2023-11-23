@@ -1,8 +1,9 @@
 package com.acme.rewear.platform.iam.infrastructure.tokens.jwt;
 
+import com.acme.rewear.platform.iam.application.internal.outboundservices.tokens.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.token.TokenService;
+
 
 /**
  * BearerTokenService

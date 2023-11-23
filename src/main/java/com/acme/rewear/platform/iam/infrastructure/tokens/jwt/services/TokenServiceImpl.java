@@ -1,5 +1,6 @@
 package com.acme.rewear.platform.iam.infrastructure.tokens.jwt.services;
 
+import com.acme.rewear.platform.iam.application.internal.outboundservices.tokens.TokenService;
 import com.acme.rewear.platform.iam.infrastructure.tokens.jwt.BearerTokenService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
