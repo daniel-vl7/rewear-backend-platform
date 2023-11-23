@@ -1,0 +1,4 @@
+package com.acme.rewear.platform.iam.domain.model.commands;
+
+public record SeedRolesCommand() {
+}
