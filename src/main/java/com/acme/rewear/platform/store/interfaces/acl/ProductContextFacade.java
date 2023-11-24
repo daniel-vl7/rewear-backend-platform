@@ -17,7 +17,7 @@ public class ProductContextFacade {
         this.productQueryService = productQueryService;
     }
 
-    public Long createProduct(String name, String description, String size, String state, Float price, String color, String urlToImg){
+    public Long createProduct(String name, String description, String size, String state, Double price, String color, String urlToImg){
         var createProductCommand = new CreateProductCommand(name, description, size, state, price, color, urlToImg);
         return productCommandService.handle(createProductCommand);
     }

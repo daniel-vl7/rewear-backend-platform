@@ -29,7 +29,7 @@ public class Product extends AbstractAggregateRoot<Product> {
 
     private String size;
     private String state;
-    private Float price;
+    private Double price;
     private String color;
     private String urlToImg;
 
@@ -42,7 +42,7 @@ public class Product extends AbstractAggregateRoot<Product> {
     @LastModifiedDate
     private Date updatedAt;
 
-    public Product(String name, String description, String size, String state, Float price, String color, String urlToImg) {
+    public Product(String name, String description, String size, String state, Double price, String color, String urlToImg) {
         this.name = new ProductName(name);
         this.description = new ProductDescription(description);
         this.size = size;
@@ -73,5 +73,15 @@ public class Product extends AbstractAggregateRoot<Product> {
         return description.getProductDescription();
     }
 
+    public void updateSize(String size) {
+    }
 
+    public void updateState(String state) {
+    }
+
+    public void updatePrice(Double price) {
+    }
+
+    public void updateColor(String color) {
+    }
 }
