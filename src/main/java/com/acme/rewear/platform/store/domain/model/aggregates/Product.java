@@ -5,6 +5,7 @@ import com.acme.rewear.platform.store.domain.model.valueobjects.ProductDetail;
 import com.acme.rewear.platform.store.domain.model.valueobjects.ProductName;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -13,6 +14,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
+@Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Product extends AbstractAggregateRoot<Product> {
@@ -24,8 +27,11 @@ public class Product extends AbstractAggregateRoot<Product> {
     @Embedded
     private ProductName name;
 
-
-    private ProductDetail detail;
+    private String size;
+    private String state;
+    private String price;
+    private String color;
+    private String urlToImg;
 
     @Embedded
     private ProductDescription description;
@@ -38,8 +44,12 @@ public class Product extends AbstractAggregateRoot<Product> {
 
     public Product(String name, String description, String size, String state, String price, String color, String urlToImg) {
         this.name = new ProductName(name);
-        this.detail = new ProductDetail(size, state, price, color, urlToImg);
         this.description = new ProductDescription(description);
+        this.size = size;
+        this.state = state;
+        this.price = price;
+        this.color = color;
+        this.urlToImg = urlToImg;
     }
 
     public Product() {
@@ -54,9 +64,6 @@ public class Product extends AbstractAggregateRoot<Product> {
         this.description = new ProductDescription(description);
     }
 
-    public void updateDetail(String productDetail, String size, String state, String color, String urlToImg) {
-        this.detail = new ProductDetail(productDetail, size, state, color, urlToImg);
-    }
 
     public String getProductName() {
         return name.getProductName();
@@ -67,7 +74,4 @@ public class Product extends AbstractAggregateRoot<Product> {
     }
 
 
-    public String getProductDetail() {
-        return detail.getProductDetail();
-    }
 }
