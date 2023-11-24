@@ -1,11 +1,9 @@
 package com.acme.rewear.platform.store.application.internal.commandservices;
 
 import com.acme.rewear.platform.store.domain.model.aggregates.Event;
-import com.acme.rewear.platform.store.domain.model.aggregates.Product;
 import com.acme.rewear.platform.store.domain.model.commands.CreateEventCommand;
 import com.acme.rewear.platform.store.domain.model.commands.DeleteEventCommand;
 import com.acme.rewear.platform.store.domain.model.commands.UpdateEventCommand;
-import com.acme.rewear.platform.store.domain.model.valueobjects.ProductName;
 import com.acme.rewear.platform.store.domain.services.EventCommandService;
 import com.acme.rewear.platform.store.infrastructure.persistence.jpa.repositories.EventRepository;
 import org.springframework.stereotype.Service;
