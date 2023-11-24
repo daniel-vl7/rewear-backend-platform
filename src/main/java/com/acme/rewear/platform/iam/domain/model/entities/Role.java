@@ -62,7 +62,12 @@ public class Role {
      * @return Role
      */
     public static Role toRoleFromName(String name) {
-        return new Role(Roles.valueOf(name));
+        try {
+            return new Role(Roles.valueOf(name));
+        } catch (IllegalArgumentException e) {
+            // Handle the exception, log it, or return a default role.
+            return getDefaultRole();
+        }
     }
 
     /**
