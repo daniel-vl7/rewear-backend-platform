@@ -21,10 +21,11 @@ public class EventCommandServiceImpl implements EventCommandService {
     @Override
     public Optional<Event> handle(CreateEventCommand command) {
         var event = new Event(command.name(), command.description(), command.location() ,command.date(), command.time());
-        eventRepository.findById(command.eventId())
-                .orElseThrow(() -> new IllegalArgumentException("Event with id " + command.eventId() + "does not exist"));
+        if (eventRepository.existsByName(command.name())) {
+            throw new IllegalArgumentException("Event with name " + command.name() + "does not exist");
+        }
         eventRepository.save(event);
-        return eventRepository.findById(command.eventId());
+        return eventRepository.findByName(command.name());
     }
 
     @Override
