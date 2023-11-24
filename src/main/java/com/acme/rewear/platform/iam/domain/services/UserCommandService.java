@@ -1,8 +1,11 @@
 package com.acme.rewear.platform.iam.domain.services;
 
 import com.acme.rewear.platform.iam.domain.model.aggregates.User;
+import com.acme.rewear.platform.iam.domain.model.commands.DeleteUserCommand;
 import com.acme.rewear.platform.iam.domain.model.commands.LogInCommand;
 import com.acme.rewear.platform.iam.domain.model.commands.SignUpCommand;
+import com.acme.rewear.platform.iam.domain.model.commands.UpdateUserCommand;
+import com.acme.rewear.platform.iam.interfaces.rest.resources.UpdateResource;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.util.Optional;
@@ -36,4 +39,26 @@ public interface UserCommandService {
      * @see LogInCommand
      */
     Optional<ImmutablePair<User, String>> handle(LogInCommand command);
+
+    /**
+     * Handle the update user command.
+     * <p>
+     *     This method is responsible for handling the update user command.
+     * </p>
+     * @param command The update user command.
+     * @return The updated user aggregate.
+     * @see UpdateUserCommand
+     */
+    Optional<User> handle(UpdateUserCommand command);
+
+    /**
+     * Handle the delete user command.
+     * <p>
+     *     This method is responsible for handling the delete user command.
+     * </p>
+     * @param command The delete user command.
+     * @return The deleted user aggregate.
+     * @see DeleteUserCommand
+     */
+    Optional<User> handle(DeleteUserCommand command);
 }

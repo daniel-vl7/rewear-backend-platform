@@ -3,6 +3,7 @@ package com.acme.rewear.platform.iam.domain.model.aggregates;
 import com.acme.rewear.platform.iam.domain.model.entities.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -20,6 +21,7 @@ import java.util.Set;
  * </p>
  */
 @Getter
+@Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class User extends AbstractAggregateRoot<User> {
@@ -28,6 +30,7 @@ public class User extends AbstractAggregateRoot<User> {
     private Long id;
 
     private String username;
+    private String email;
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -39,14 +42,15 @@ public class User extends AbstractAggregateRoot<User> {
         this.roles = new HashSet<>();
     }
 
-    public User(String username, String password) {
+    public User(String username, String email, String password) {
         this();
         this.username = username;
+        this.email = email;
         this.password = password;
     }
 
-    public User(String username, String password, List<Role> roles) {
-        this(username, password);
+    public User(String username, String email, String password, List<Role> roles) {
+        this(username, email, password);
         addRoles(roles);
     }
 
@@ -62,6 +66,18 @@ public class User extends AbstractAggregateRoot<User> {
 
     public User addRoles(List<Role> roles) {
         var validatedRoleSet = Role.validateRoleSet(roles);
+        this.roles.addAll(validatedRoleSet);
+        return this;
+    }
+
+    /**
+     * Update the roles of the user
+     * @param newRoles the new roles to set
+     * @return the user with updated roles
+     */
+    public User updateRoles(List<Role> newRoles) {
+        var validatedRoleSet = Role.validateRoleSet(newRoles);
+        this.roles.clear(); // Clear existing roles
         this.roles.addAll(validatedRoleSet);
         return this;
     }
