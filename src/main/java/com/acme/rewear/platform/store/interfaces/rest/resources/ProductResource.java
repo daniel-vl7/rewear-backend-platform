@@ -1,4 +1,4 @@
 package com.acme.rewear.platform.store.interfaces.rest.resources;
 
-public record ProductResource(Long id, String productName, String productDescription, String productDetail) {
+public record ProductResource(Long id, String productName, String productDescription, String size, String state, Float price, String color, String urlToImg) {
 }
