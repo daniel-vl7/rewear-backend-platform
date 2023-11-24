@@ -3,15 +3,20 @@ package com.acme.rewear.platform.iam.application.internal.commandservices;
 import com.acme.rewear.platform.iam.application.internal.outboundservices.hashing.HashingService;
 import com.acme.rewear.platform.iam.application.internal.outboundservices.tokens.TokenService;
 import com.acme.rewear.platform.iam.domain.model.aggregates.User;
+import com.acme.rewear.platform.iam.domain.model.commands.DeleteUserCommand;
 import com.acme.rewear.platform.iam.domain.model.commands.LogInCommand;
 import com.acme.rewear.platform.iam.domain.model.commands.SignUpCommand;
+import com.acme.rewear.platform.iam.domain.model.commands.UpdateUserCommand;
+import com.acme.rewear.platform.iam.domain.model.entities.Role;
 import com.acme.rewear.platform.iam.domain.services.UserCommandService;
 import com.acme.rewear.platform.iam.infrastructure.persistence.jpa.repositories.RoleRepository;
 import com.acme.rewear.platform.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserCommandServiceImpl implements UserCommandService {
@@ -34,7 +39,7 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         var roles = command.roles().stream().map(role -> roleRepository.findByName(role.getName())
                 .orElseThrow(() -> new RuntimeException("Role name not found"))).toList();
-        var user = new User(command.username(), hashingService.encode(command.password()), roles);
+        var user = new User(command.username(), command.email(),hashingService.encode(command.password()), roles);
         userRepository.save(user);
         return userRepository.findByUsername(command.username());
     }
@@ -47,5 +52,25 @@ public class UserCommandServiceImpl implements UserCommandService {
             throw new RuntimeException("Invalid password");
         var token = tokenService.generateToken(user.get().getUsername());
         return Optional.of(ImmutablePair.of(user.get(), token));
+    }
+
+    @Override
+    public Optional<User> handle(UpdateUserCommand command) {
+        var user = userRepository.findById(command.userId());
+        if (user.isEmpty()) throw new RuntimeException("User not found");
+        user.get().setUsername(command.username());
+        user.get().setEmail(command.email());
+        user.get().setPassword(hashingService.encode(command.password()));
+
+        userRepository.save(user.get());
+        return userRepository.findById(command.userId());
+    }
+
+    @Override
+    public Optional<User> handle(DeleteUserCommand command) {
+        var user = userRepository.findById(command.userId());
+        if (user.isEmpty()) throw new RuntimeException("User not found");
+        userRepository.deleteById(user.get().getId());
+        return user;
     }
 }

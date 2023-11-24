@@ -29,4 +29,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return true if user exists
      */
     boolean existsByUsername(String username);
+
+    /**
+     * Delete user by userId
+     * @param userId the userId to delete
+     */
+    void deleteById(Long userId);
 }
